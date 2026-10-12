@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/assemblies/">
+    <Project Path="assebmlies/PetCareAPI.Application/PetCareAPI.Application.csproj" />
+    <Project Path="assebmlies/PetCareAPI.Domain/PetCareAPI.Domain.csproj" />
+    <Project Path="assebmlies/PetCareAPI.Repository/PetCareAPI.Repository.csproj" />
+    <Project Path="assebmlies/PetCareAPI/PetCareAPI.csproj" />
+    <Project Path="assebmlies/PetCareAPI.Contracts/PetCareAPI.Contracts.csproj" />
+    <Project Path="assebmlies/PetCareAPI.EmailService/PetCareAPI.EmailService.csproj" />
+  </Folder>
+</Solution>
