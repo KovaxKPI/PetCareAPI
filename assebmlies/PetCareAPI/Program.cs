@@ -12,9 +12,9 @@ using PetCareAPI.Repository.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keyVaultUrl = builder.Configuration["KeyVault:Url"]
+var keyVaultUrl = builder.Configuration["Azure:KeyVaultUrl"]
                   ?? throw new InvalidOperationException(
-                      "KeyVault:Url is not configured.");
+                      "Azure:KeyVaultUrl is not configured.");
 
 builder.Configuration.AddAzureKeyVault(
     new Uri(keyVaultUrl),
@@ -47,13 +47,13 @@ builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddAzureClients(clientBuilder =>
 {
-    clientBuilder.AddBlobServiceClient(new Uri("https://maxpetproject.blob.core.windows.net/"));
+    clientBuilder.AddBlobServiceClient(new Uri(builder.Configuration["Azure:BlobUrl"] ?? throw new InvalidOperationException("Azure:BlobUrl is not configured.")));
     
     clientBuilder.UseCredential(new DefaultAzureCredential());
 });
 
 builder.Services.AddSingleton(
-    new ServiceBusClient(builder.Configuration.GetConnectionString("ServiceBus"), new DefaultAzureCredential()));
+    new ServiceBusClient(builder.Configuration["Azure:ServiceBusNamespace"], new DefaultAzureCredential()));
 
 builder.Services.AddHostedService<OutboxWorker>();
 

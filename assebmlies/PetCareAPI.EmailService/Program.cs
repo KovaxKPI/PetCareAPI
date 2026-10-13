@@ -5,9 +5,9 @@ using PetCareAPI.EmailService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keyVaultUrl = builder.Configuration["KeyVault:Url"]
+var keyVaultUrl = builder.Configuration["Azure:KeyVaultUrl"]
                   ?? throw new InvalidOperationException(
-                      "KeyVault:Url is not configured.");
+                      "Azure:KeyVaultUrl is not configured.");
 
 builder.Configuration.AddAzureKeyVault(
     new Uri(keyVaultUrl),
@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton(
-    new ServiceBusClient(builder.Configuration.GetConnectionString("ServiceBus"), new AzureCliCredential()));
+    new ServiceBusClient(builder.Configuration["Azure:ServiceBusNamespace"], new AzureCliCredential()));
 
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddHostedService<OutboxConsumer>();
